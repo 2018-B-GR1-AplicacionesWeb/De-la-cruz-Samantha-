@@ -1,10 +1,10 @@
 //Tipados Int edad=1;
 // Javascript es un lenguaje no tipado
-var edad=1; //number
-var sueldo=1.01;//number
-var nombre="Samy";//string
-var nombre='Samy';//string
-var nombre=`Samy`;//string
+var edad = 1; //number
+var sueldo = 1.01;//number
+var nombre = "Samy";//string
+var nombre = 'Samy';//string
+var nombre = `Samy`;//string
 
 var casado="false";//boolean
 var hijos="null";//objeto
