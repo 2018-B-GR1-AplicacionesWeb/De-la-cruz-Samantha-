@@ -1,66 +1,75 @@
-// 06-callback-propio.js
-
+//06-callback-propio.js
 const fs = require('fs');
+function appendFile(nombreArchivo,contenidoArchivo,callback){
 
-let totalArchivo = 'INICIO';
+    //1ero leer si existe el archivo
+    //2do si existe leer el contenido
+    //sobre escribir el archivo con el contenido nuevo
+    //mas el contenido antiguo
 
-function appendFile(nombreArchivo, contenidoArchivo, callback) {
+    let totalArchivo='INICIO';
 
-    fs.readFile(nombreArchivo, 'utf-8',
-        (error, contenidoArchivoLeido) => {
-            if (error) {
-                fs.writeFile(nombreArchivo, contenidoArchivo,
-                    (err) => {
-                        if (err) {
+    fs.readFile(nombreArchivo,'utf-8',
+        (error,contenidoArchivoLeido)=>{
+            if (error){
+                fs.writeFile(nombreArchivo,contenidoArchivo,
+                    (err)=>{
+                        if(err){
                             console.error('Error escribiendo');
-                            callback(err);
-                        } else {
+                            callback(undefined,err);
+                        }else {
                             console.log('Archivo creado');
-                            callback(undefined, contenidoArchivo);
+                            callback(contenidoArchivo)
                         }
+
                     }
                 );
-            } else {
-                fs.writeFile(
-                    nombreArchivo,
-                    contenidoArchivoLeido + contenidoArchivo,
-                    (err) => {
-                        if (err) {
+
+            }else{
+                fs.writeFile(nombreArchivo,contenidoArchivoLeido+contenidoArchivo,
+                    (err)=>{
+                        if(err){
                             console.error('Error escribiendo');
-                            callback(err);
-                        } else {
+                            callback(contenidoArchivo)
+                        }else {
                             console.log('Archivo creado');
-                            callback(undefined, contenidoArchivoLeido + contenidoArchivo);
                         }
                     }
                 );
             }
+
         }
+
+
     );
+
+
 }
-
-appendFile('06-texto.txt',
-    '\n Adios mundo',
-    (contenidoArchivo, error) => {
-        if (error) {
-            console.log('Error', error);
-        } else {
-            // contenidoArchivo
+appendFile('06-texto2.text','\n Adios Mundo',
+    (contenidoArchivo,error)=>{
+        if(error){
+            console.log('Error',error)
+        }else{
+            console.log(contenidoArchivo)
         }
-
     }
 );
 
 
+
 // ['A','B','C']
+//0-A.txt 'A'
+//1-B.txt 'B'
+//2-C.txt 'C'
+//Todo en formato JSON
 
-// 0-A.txt 'A'
-// 1-B.txt 'B'
-// 2-C.txt 'C'
+const respuesta={
+    nombreArchivo:'',
+    contenidoArchivo:'',
+    error:''
+};
 
-
-// [respuesta,respuesta,respuesta,respuesta,respuesta]
-
+[respuesta,respuesta,respuesta,respuesta,respuesta,respuesta]
 function ejercicioDeArchivos(arregloStrings, callback) {
 
     const arregloRespuestas = [];

@@ -1,3 +1,5 @@
+// 07-promesas.js
+
 const fs = require('fs');
 
 const nuevaPromesaLectura = new Promise(
@@ -36,6 +38,13 @@ nuevaPromesaLectura
     .then(
         (resultadoOk) => {
             console.log('Todo bien', resultadoOk);
+            return nuevaPromesaEscritura(contenidoArchivo)
+
+        }
+    )
+    .then(
+        (contenidoCompleto) => {
+            console.log('Contenido Completo',contenidoCompleto);
 
         }
     )
@@ -49,7 +58,7 @@ const nuevaPromesaAppendFile = (nombreArchivo,contenidoArchivo) => {
     return new Promise(
         (resolve, reject) => {
             fs.readFile(nombreArchivo,'utf-8',
-                (error,contenidoArchivo)=>{
+                (error,contenidoArchivoLeido)=>{
                     if (error){
                         fs.writeFile(nombreArchivo,contenidoArchivo,
                             (err)=>{
@@ -62,7 +71,7 @@ const nuevaPromesaAppendFile = (nombreArchivo,contenidoArchivo) => {
                         );
 
                     }else{
-                        fs.writeFile(nombreArchivo,contenidoArchivo+contenidoArchivo,
+                        fs.writeFile(nombreArchivo,contenidoArchivoLeido+contenidoArchivo,
                             (err)=>{
                                 if (err) {
                                     reject(console.error('Error escribiendo'));
@@ -82,7 +91,7 @@ const nuevaPromesaAppendFile = (nombreArchivo,contenidoArchivo) => {
     );
 };
 
-nuevaPromesaAppendFile()
+nuevaPromesaAppendFile('06-texto3.text','\n Adios Mundo')
     .then(
         (resultadoOk) => {
             console.log('Todo bien', resultadoOk);
@@ -96,12 +105,42 @@ nuevaPromesaAppendFile()
         }
     );
 
-nuevaPromesaAppendFile('06-texto3.text','\n ',
-    (contenidoArchivo,error)=>{
-        if(error){
-            console.log('Error',error)
-        }else{
-            console.log(contenidoArchivo)
+
+const nuevaPromesaForEach = (arregloStrings,callback) => {
+    return new Promise(
+        (resolve, reject) => {
+        .forEach(
+                (string, indice) => {
+                    const archivo = `${indice}-${string}.txt`;
+                    const contenido = string;
+                    fs.writeFile(archivo,
+                        contenido,
+                        (err) => {
+                            const respuesta = {
+                                nombreArchivo: archivo,
+                                contenidoArchivo: contenido,
+                                error: err
+                            };
+                            arregloRespuestas.push(respuesta);
+                            const tamanoRespuestas = arregloRespuestas.length;
+                            if (tamanoRespuestas === arregloStrings.length) {
+                                callback(arregloRespuestas)
+                            }
+                        });
+                }
+            );
+
+
+nuevaPromesaForEach('06-texto3.text','callback')
+    .then(
+        (resultadoOk) => {
+            console.log('Todo bien', resultadoOk);
+            return nuevaPromesaForEach(contenidoArchivo,contenidoArchivo)
+
         }
-    }
-);
+    )
+    .catch(
+        (resultadoError) => {
+            console.log('Algo malo paso', resultadoError);
+        }
+    );}
