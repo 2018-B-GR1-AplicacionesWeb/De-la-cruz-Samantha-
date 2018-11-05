@@ -106,7 +106,7 @@ nuevaPromesaAppendFile('06-texto3.text','\n Adios Mundo')
     );
 
 
-const nuevaPromesaForEach = (arregloStrings,callback) => {
+const nuevaPromesaForEach = (arregloStrings) => {
     return new Promise(
         (resolve, reject) => {
         .forEach(
@@ -131,7 +131,7 @@ const nuevaPromesaForEach = (arregloStrings,callback) => {
             );
 
 
-nuevaPromesaForEach('06-texto3.text','callback')
+nuevaPromesaForEach('06-texto3.text')
     .then(
         (resultadoOk) => {
             console.log('Todo bien', resultadoOk);
